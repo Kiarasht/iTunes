@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.application.itunes.util.DateUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHolder> {
@@ -40,6 +42,8 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
         Picasso.get().load(album.getArtworkUrl()).into(viewHolder.albumCover, picassoCallback(viewHolder));
         viewHolder.artistName.setText(album.getArtistName());
         viewHolder.albumName.setText(album.getName());
+        Date time = DateUtils.parseDate(album.getReleaseDate());
+        viewHolder.releaseDate.setText(DateUtils.getDateDifference(time.getTime()));
     }
 
     private Callback picassoCallback(final AlbumAdapterViewHolder viewHolder) {
@@ -70,7 +74,7 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
         private final View albumCoverProgress;
         private final ImageView albumCover;
         private final TextView artistName;
-        //private final TextView releaseDate;
+        private final TextView releaseDate;
         private final TextView albumName;
         //private final TextView copyRights;
         //private final TextView advisoryRating;
@@ -84,6 +88,7 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
             albumCover = view.findViewById(R.id.album_cover);
             albumName = view.findViewById(R.id.album);
             artistName = view.findViewById(R.id.artist);
+            releaseDate = view.findViewById(R.id.release_date);
         }
 
         @Override
