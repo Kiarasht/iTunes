@@ -91,7 +91,7 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
 
     private void requestHotAlbums() {
         try {
-            new ItunesRequest(this).execute(new URL(Uri.parse(ITUNES_URL).toString()));
+            new ItunesRequest().execute(new URL(Uri.parse(ITUNES_URL).toString()));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -127,16 +127,10 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
         }
     }
 
-    private static class ItunesRequest extends AsyncTask<URL, Void, Void> {
-        private MainActivity activity;
-
-        public ItunesRequest(MainActivity activity) {
-            this.activity = activity;
-        }
-
+    private class ItunesRequest extends AsyncTask<URL, Void, Void> {
         @Override
         protected void onPreExecute() {
-            activity.setLayoutState(LOADING);
+            setLayoutState(LOADING);
         }
 
         @Override
@@ -167,7 +161,7 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
                         genreList.add(new Genre(genreId, genreName, url));
                     }
 
-                    activity.dataSet.add(new Album(artistName, releaseDate, name, copyright,
+                    dataSet.add(new Album(artistName, releaseDate, name, copyright,
                             contentAdvisoryRating, artworkUrl, albumUrl, genreList));
                 }
 
@@ -183,14 +177,14 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
                 e.printStackTrace();
             }
 
-            activity.dataSet.clear();
+            dataSet.clear();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void ignored) {
-            activity.adapter.notifyDataSetChanged();
-            activity.setLayoutState(activity.dataSet.size() > 0 ? LOADED : ERROR);
+            adapter.notifyDataSetChanged();
+            setLayoutState(dataSet.size() > 0 ? LOADED : ERROR);
         }
     }
 }
