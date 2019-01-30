@@ -3,4 +3,8 @@
 
     <string name="error_unknown">Unable to connect to service. Try again later</string>
     <string name="error_retry">Retry</string>
+    <string name="album_label">Album</string>
+    <string name="artist_label">Artist</string>
+    <string name="genre_label">Genre</string>
+    <string name="date_label">Release Date</string>
 </resources>

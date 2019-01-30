@@ -16,6 +16,15 @@ import java.util.List;
 
 class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHolder> {
     private List<Album> dataSet;
+    private final ListItemClickListener mOnListItemClickListener;
+
+    public AlbumAdapter(ListItemClickListener mOnListItemClickListener) {
+        this.mOnListItemClickListener = mOnListItemClickListener;
+    }
+
+    interface ListItemClickListener {
+        void onListItemClick(int index);
+    }
 
     @NonNull
     @Override
@@ -57,7 +66,7 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
         this.dataSet = dataSet;
     }
 
-    public class AlbumAdapterViewHolder extends RecyclerView.ViewHolder {
+    public class AlbumAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final View albumCoverProgress;
         private final ImageView albumCover;
         private final TextView artistName;
@@ -67,13 +76,19 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
         //private final TextView advisoryRating;
         //private final TextView genres;
 
-        public AlbumAdapterViewHolder(@NonNull View view) {
+        AlbumAdapterViewHolder(@NonNull View view) {
             super(view);
 
+            view.setOnClickListener(this);
             albumCoverProgress = view.findViewById(R.id.album_cover_progress);
             albumCover = view.findViewById(R.id.album_cover);
             albumName = view.findViewById(R.id.album);
             artistName = view.findViewById(R.id.artist);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mOnListItemClickListener.onListItemClick(getAdapterPosition());
         }
     }
 }

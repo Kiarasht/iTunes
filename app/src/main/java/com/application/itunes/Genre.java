@@ -14,6 +14,18 @@ public class Genre implements Parcelable {
         this.url = url;
     }
 
+    public String getGenreId() {
+        return genreId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
     @Override
     public int describeContents() {
         return 0;

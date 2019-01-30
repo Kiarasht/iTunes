@@ -1,6 +1,7 @@
 package com.application.itunes;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,9 +23,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.application.itunes.MainActivity.LayoutState.*;
+import static com.application.itunes.util.AlbumConstants.*;
+import static com.application.itunes.util.AlbumConstants.LayoutState.*;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements AlbumAdapter.ListItemClickListener {
     private static final String TAG = Activity.class.getName();
     private static final String KEY_DATA_SET = "key_data_set";
     private static final String ITUNES_URL = "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/10/explicit.json";
@@ -35,8 +37,11 @@ public class MainActivity extends Activity {
     private View loadingView;
     private View errorView;
 
-    public enum LayoutState {
-        LOADED, LOADING, ERROR
+    @Override
+    public void onListItemClick(int index) {
+        Intent albumInfo = new Intent(this, AlbumInfo.class);
+        albumInfo.putExtra(KEY_ALBUM_OBJECT, dataSet.get(index));
+        startActivity(albumInfo);
     }
 
     private void setLayoutState(LayoutState state) {
@@ -71,6 +76,7 @@ public class MainActivity extends Activity {
             adapter.setDataSet(dataSet);
             albums.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+            setLayoutState(LOADED);
         }
     }
 
@@ -92,7 +98,7 @@ public class MainActivity extends Activity {
         albums.setLayoutManager(new LinearLayoutManager(this, vertical, false));
         albums.setHasFixedSize(true);
         albums.addItemDecoration(new DividerItemDecoration(this, vertical));
-        adapter = new AlbumAdapter();
+        adapter = new AlbumAdapter(this);
     }
 
     private class ItunesRequest extends AsyncTask<URL, Void, Void> {

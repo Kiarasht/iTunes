@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#2F1E4D</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="dateText">#BDBDBD</color>
+    <color name="divider_grey">#E0E0E0</color>
+    <color name="dark_grey">#757575</color>
+    <color name="light_grey">#BDBDBD</color>
 </resources>

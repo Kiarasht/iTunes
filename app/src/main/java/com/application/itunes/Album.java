@@ -2,6 +2,7 @@ package com.application.itunes;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +51,17 @@ public class Album implements Parcelable {
         return artworkUrl;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
+    @NonNull
+    public List<String> getGenresNames() {
+        List<String> values = new ArrayList<>();
+
+        if (genres == null)
+            return values;
+
+        for (Genre genre : genres)
+            values.add(genre.getName());
+
+        return values;
     }
 
     @Override

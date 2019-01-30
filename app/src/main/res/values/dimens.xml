@@ -6,4 +6,5 @@
 
     <dimen name="title">16sp</dimen>
     <dimen name="subtitle">12sp</dimen>
+    <dimen name="legal">10sp</dimen>
 </resources>
