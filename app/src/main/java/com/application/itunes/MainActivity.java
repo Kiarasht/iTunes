@@ -28,10 +28,9 @@ import java.util.List;
 import static com.application.itunes.util.AlbumConstants.*;
 import static com.application.itunes.util.AlbumConstants.LayoutState.*;
 
-public class MainActivity extends Activity implements AlbumAdapter.ListItemClickListener {
+public class MainActivity extends Activity implements AlbumAdapter.ListItemClickListener, View.OnClickListener {
     private static final String TAG = Activity.class.getName();
     private static final String KEY_DATA_SET = "key_data_set";
-    private static final String ITUNES_URL = "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/10/explicit.json";
     private List<Album> dataSet = new ArrayList<>();
     private RecyclerView albums;
     private AlbumAdapter adapter;
@@ -66,6 +65,7 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
         contentView = findViewById(R.id.album_content_parent);
         loadingView = findViewById(R.id.album_loading_parent);
         errorView = findViewById(R.id.album_error_parent);
+        findViewById(R.id.error_retry).setOnClickListener(this);
 
         setLayoutState(LOADING);
         initializeAlbumList();
@@ -73,17 +73,27 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
         if (savedInstanceState == null) {
             adapter.setDataSet(dataSet);
             albums.setAdapter(adapter);
-            try {
-                new ItunesRequest().execute(new URL(Uri.parse(ITUNES_URL).toString()));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            requestHotAlbums();
         } else {
             dataSet = savedInstanceState.getParcelableArrayList(KEY_DATA_SET);
+
+            if (dataSet == null || dataSet.size() == 0) {
+                setLayoutState(ERROR);
+                return;
+            }
+
             adapter.setDataSet(dataSet);
             albums.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             setLayoutState(LOADED);
+        }
+    }
+
+    private void requestHotAlbums() {
+        try {
+            new ItunesRequest().execute(new URL(Uri.parse(ITUNES_URL).toString()));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -106,6 +116,15 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
         albums.setHasFixedSize(true);
         albums.addItemDecoration(new DividerItemDecoration(this, vertical));
         adapter = new AlbumAdapter(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.error_retry:
+                setLayoutState(LOADING);
+                requestHotAlbums();
+        }
     }
 
     private class ItunesRequest extends AsyncTask<URL, Void, Void> {
@@ -145,27 +164,27 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
                     dataSet.add(new Album(artistName, releaseDate, name, copyright,
                             contentAdvisoryRating, artworkUrl, albumUrl, genreList));
                 }
+
+                return null;
             } catch (IOException e) {
-                setLayoutState(ERROR);
                 Log.e(TAG, "Unable in grabbing data");
                 e.printStackTrace();
             } catch (SecurityException e) {
-                setLayoutState(ERROR);
                 Log.e(TAG, "Permission to access internet was denied");
                 e.printStackTrace();
             } catch (JSONException e) {
-                setLayoutState(ERROR);
                 Log.e(TAG, "Unable in parsing data");
                 e.printStackTrace();
             }
 
+            dataSet.clear();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void ignored) {
             adapter.notifyDataSetChanged();
-            setLayoutState(LOADED);
+            setLayoutState(dataSet.size() > 0 ? LOADED : ERROR);
         }
     }
 }
