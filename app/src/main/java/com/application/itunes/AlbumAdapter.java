@@ -28,7 +28,13 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
     public void onBindViewHolder(@NonNull final AlbumAdapter.AlbumAdapterViewHolder viewHolder, int i) {
         Album album = dataSet.get(i);
 
-        Picasso.get().load(album.getArtworkUrl()).into(viewHolder.albumCover, new Callback() {
+        Picasso.get().load(album.getArtworkUrl()).into(viewHolder.albumCover, picassoCallback(viewHolder));
+        viewHolder.artistName.setText(album.getArtistName());
+        viewHolder.albumName.setText(album.getName());
+    }
+
+    private Callback picassoCallback(final AlbumAdapterViewHolder viewHolder) {
+        return new Callback() {
             @Override
             public void onSuccess() {
                 viewHolder.albumCoverProgress.setVisibility(View.GONE);
@@ -39,9 +45,7 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
             public void onError(Exception e) {
 
             }
-        });
-        viewHolder.artistName.setText(album.getArtistName());
-        viewHolder.albumName.setText(album.getName());
+        };
     }
 
     @Override
