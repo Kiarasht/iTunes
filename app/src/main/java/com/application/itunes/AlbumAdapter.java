@@ -12,7 +12,6 @@ import com.application.itunes.util.DateUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +19,7 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
     private List<Album> dataSet;
     private final ListItemClickListener mOnListItemClickListener;
 
-    public AlbumAdapter(ListItemClickListener mOnListItemClickListener) {
+    AlbumAdapter(ListItemClickListener mOnListItemClickListener) {
         this.mOnListItemClickListener = mOnListItemClickListener;
     }
 
@@ -66,7 +65,7 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
         return dataSet != null ? dataSet.size() : 0;
     }
 
-    public void setDataSet(List<Album> dataSet) {
+    void setDataSet(List<Album> dataSet) {
         this.dataSet = dataSet;
     }
 

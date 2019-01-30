@@ -8,7 +8,7 @@ public class Genre implements Parcelable {
     private String name;
     private String url;
 
-    public Genre(String genreId, String name, String url) {
+    Genre(String genreId, String name, String url) {
         this.genreId = genreId;
         this.name = name;
         this.url = url;

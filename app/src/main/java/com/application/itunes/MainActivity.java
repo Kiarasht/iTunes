@@ -91,7 +91,7 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
 
     private void requestHotAlbums() {
         try {
-            new ItunesRequest().execute(new URL(Uri.parse(ITUNES_URL).toString()));
+            new ItunesRequest(this).execute(new URL(Uri.parse(ITUNES_URL).toString()));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -127,10 +127,16 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
         }
     }
 
-    private class ItunesRequest extends AsyncTask<URL, Void, Void> {
+    private static class ItunesRequest extends AsyncTask<URL, Void, Void> {
+        private MainActivity activity;
+
+        public ItunesRequest(MainActivity activity) {
+            this.activity = activity;
+        }
+
         @Override
         protected void onPreExecute() {
-            setLayoutState(LOADING);
+            activity.setLayoutState(LOADING);
         }
 
         @Override
@@ -161,7 +167,7 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
                         genreList.add(new Genre(genreId, genreName, url));
                     }
 
-                    dataSet.add(new Album(artistName, releaseDate, name, copyright,
+                    activity.dataSet.add(new Album(artistName, releaseDate, name, copyright,
                             contentAdvisoryRating, artworkUrl, albumUrl, genreList));
                 }
 
@@ -177,14 +183,14 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
                 e.printStackTrace();
             }
 
-            dataSet.clear();
+            activity.dataSet.clear();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void ignored) {
-            adapter.notifyDataSetChanged();
-            setLayoutState(dataSet.size() > 0 ? LOADED : ERROR);
+            activity.adapter.notifyDataSetChanged();
+            activity.setLayoutState(activity.dataSet.size() > 0 ? LOADED : ERROR);
         }
     }
 }

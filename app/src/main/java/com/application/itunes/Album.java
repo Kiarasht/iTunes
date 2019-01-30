@@ -17,8 +17,8 @@ public class Album implements Parcelable {
     private String albumUrl;
     private List<Genre> genres;
 
-    public Album(String artistName, String releaseDate, String name, String copyright,
-                 String contentAdvisoryRating, String artworkUrl, String albumUrl, List<Genre> genres) {
+    Album(String artistName, String releaseDate, String name, String copyright,
+          String contentAdvisoryRating, String artworkUrl, String albumUrl, List<Genre> genres) {
         this.artistName = artistName;
         this.releaseDate = releaseDate;
         this.name = name;
@@ -30,11 +30,11 @@ public class Album implements Parcelable {
         this.genres = genres;
     }
 
-    public String getArtistName() {
+    String getArtistName() {
         return artistName;
     }
 
-    public String getReleaseDate() {
+    String getReleaseDate() {
         return releaseDate;
     }
 
@@ -50,16 +50,16 @@ public class Album implements Parcelable {
         return contentAdvisoryRating;
     }
 
-    public String getArtworkUrl() {
+    String getArtworkUrl() {
         return artworkUrl;
     }
 
-    public String getAlbumUrl() {
+    String getAlbumUrl() {
         return albumUrl;
     }
 
     @NonNull
-    public List<String> getGenresNames() {
+    List<String> getGenresNames() {
         List<String> values = new ArrayList<>();
 
         if (genres == null)
