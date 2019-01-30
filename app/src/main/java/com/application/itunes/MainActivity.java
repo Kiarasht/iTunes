@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,12 +32,17 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
     private static final String TAG = Activity.class.getName();
     private static final String KEY_DATA_SET = "key_data_set";
     private static final String ITUNES_URL = "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/10/explicit.json";
-    private ArrayList<Album> dataSet = new ArrayList<>();
+    private List<Album> dataSet = new ArrayList<>();
     private RecyclerView albums;
     private AlbumAdapter adapter;
     private View contentView;
     private View loadingView;
     private View errorView;
+
+    @VisibleForTesting
+    public List<Album> getDataSet() {
+        return dataSet;
+    }
 
     @Override
     public void onListItemClick(int index) {
@@ -90,7 +97,7 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(KEY_DATA_SET, dataSet);
+        outState.putParcelableArrayList(KEY_DATA_SET, new ArrayList<Parcelable>(dataSet));
     }
 
     private void initializeAlbumList() {

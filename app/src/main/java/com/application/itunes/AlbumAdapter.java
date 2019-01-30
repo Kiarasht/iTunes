@@ -66,7 +66,7 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
         return dataSet != null ? dataSet.size() : 0;
     }
 
-    public void setDataSet(ArrayList<Album> dataSet) {
+    public void setDataSet(List<Album> dataSet) {
         this.dataSet = dataSet;
     }
 
