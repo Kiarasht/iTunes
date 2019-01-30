@@ -123,6 +123,7 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
                     String copyright = anAlbum.getString("copyright");
                     String contentAdvisoryRating = anAlbum.getString("contentAdvisoryRating");
                     String artworkUrl = anAlbum.getString("artworkUrl100");
+                    String albumUrl = anAlbum.getString("url");
                     JSONArray genres = anAlbum.getJSONArray("genres");
 
                     List<Genre> genreList = new ArrayList<>();
@@ -135,7 +136,7 @@ public class MainActivity extends Activity implements AlbumAdapter.ListItemClick
                     }
 
                     dataSet.add(new Album(artistName, releaseDate, name, copyright,
-                            contentAdvisoryRating, artworkUrl, genreList));
+                            contentAdvisoryRating, artworkUrl, albumUrl, genreList));
                 }
             } catch (IOException e) {
                 setLayoutState(ERROR);

@@ -14,16 +14,19 @@ public class Album implements Parcelable {
     private String copyright;
     private String contentAdvisoryRating;
     private String artworkUrl;
+    private String albumUrl;
     private List<Genre> genres;
 
     public Album(String artistName, String releaseDate, String name, String copyright,
-                 String contentAdvisoryRating, String artworkUrl, List<Genre> genres) {
+                 String contentAdvisoryRating, String artworkUrl, String albumUrl, List<Genre> genres) {
         this.artistName = artistName;
         this.releaseDate = releaseDate;
         this.name = name;
         this.copyright = copyright;
         this.contentAdvisoryRating = contentAdvisoryRating;
         this.artworkUrl = artworkUrl;
+        this.albumUrl = albumUrl;
+
         this.genres = genres;
     }
 
@@ -49,6 +52,10 @@ public class Album implements Parcelable {
 
     public String getArtworkUrl() {
         return artworkUrl;
+    }
+
+    public String getAlbumUrl() {
+        return albumUrl;
     }
 
     @NonNull
@@ -77,6 +84,7 @@ public class Album implements Parcelable {
         dest.writeString(this.copyright);
         dest.writeString(this.contentAdvisoryRating);
         dest.writeString(this.artworkUrl);
+        dest.writeString(this.albumUrl);
         dest.writeList(this.genres);
     }
 
@@ -87,6 +95,7 @@ public class Album implements Parcelable {
         this.copyright = in.readString();
         this.contentAdvisoryRating = in.readString();
         this.artworkUrl = in.readString();
+        this.albumUrl = in.readString();
         this.genres = new ArrayList<>();
         in.readList(this.genres, Genre.class.getClassLoader());
     }

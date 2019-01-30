@@ -13,12 +13,12 @@
             android:id="@+id/album_info_cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="250dp"
-            android:minWidth="250dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:importantForAccessibility="no"
+            android:minWidth="250dp"
+            android:minHeight="250dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +33,8 @@
             android:id="@+id/album_label"
             style="@style/base_label"
             android:text="@string/album_label"
-            app:layout_constraintTop_toBottomOf="@+id/divider_1" />
+            app:layout_constraintTop_toBottomOf="@+id/divider_1"
+            tools:text="Album" />
 
         <TextView
             android:id="@+id/album_value"
@@ -50,7 +51,8 @@
             android:id="@+id/artist_label"
             style="@style/base_label"
             android:text="@string/artist_label"
-            app:layout_constraintTop_toBottomOf="@+id/divider_2" />
+            app:layout_constraintTop_toBottomOf="@+id/divider_2"
+            tools:text="Artist" />
 
         <TextView
             android:id="@+id/artist_value"
@@ -67,7 +69,8 @@
             android:id="@+id/genre_label"
             style="@style/base_label"
             android:text="@string/genre_label"
-            app:layout_constraintTop_toBottomOf="@+id/divider_3" />
+            app:layout_constraintTop_toBottomOf="@+id/divider_3"
+            tools:text="Genre" />
 
         <TextView
             android:id="@+id/genre_value"
@@ -84,7 +87,8 @@
             android:id="@+id/date_label"
             style="@style/base_label"
             android:text="@string/date_label"
-            app:layout_constraintTop_toBottomOf="@+id/divider_4" />
+            app:layout_constraintTop_toBottomOf="@+id/divider_4"
+            tools:text="Date" />
 
         <TextView
             android:id="@+id/date_value"
@@ -97,19 +101,32 @@
             style="@style/default_divider"
             app:layout_constraintTop_toBottomOf="@+id/date_label" />
 
+        <Button
+            android:id="@+id/open_album"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/view_in_itunes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider_5" />
+
         <TextView
             android:id="@+id/copyright"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:textSize="@dimen/legal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider_5"
+            app:layout_constraintTop_toBottomOf="@+id/open_album"
             tools:text="Universal Music Latino; ℗ 2019 UMG Recordings, Inc." />
 
     </android.support.constraint.ConstraintLayout>

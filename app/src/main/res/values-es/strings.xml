@@ -10,6 +10,7 @@
     <string name="artist_label">Artista</string>
     <string name="genre_label">Género</string>
     <string name="date_label">Fecha de lanzamiento</string>
+    <string name="view_in_itunes">Ver en iTunes</string>
 
     <!-- Errors -->
     <string name="error_unknown">No se puede conectar al servicio. Inténtalo más tarde</string>

@@ -9,6 +9,7 @@
     <string name="artist_label">Artist</string>
     <string name="genre_label">Genre</string>
     <string name="date_label">Release Date</string>
+    <string name="view_in_itunes">View in iTunes</string>
 
     <!-- Errors -->
     <string name="error_unknown">Unable to connect to service. Try again later</string>
