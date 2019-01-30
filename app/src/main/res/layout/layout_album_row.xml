@@ -1,40 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/album_cover"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="@dimen/base_dimen"
-        android:layout_marginTop="@dimen/base_dimen_x2"
-        android:layout_marginBottom="@dimen/base_dimen_x2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+    <FrameLayout
+        android:id="@+id/album_cover_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/album_cover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/base_dimen"
+            android:layout_marginTop="@dimen/base_dimen"
+            android:layout_marginBottom="@dimen/base_dimen"
+            android:importantForAccessibility="no"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:src="@drawable/ic_launcher_background"
+            tools:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/album_cover_progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/base_dimen"
+            android:layout_marginTop="@dimen/base_dimen"
+            android:layout_marginBottom="@dimen/base_dimen"
+            android:visibility="visible"
+            tools:visibility="gone" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/base_dimen_x2"
-        android:layout_marginBottom="@dimen/base_dimen_x2"
+        android:layout_marginStart="@dimen/base_dimen"
+        android:layout_marginTop="@dimen/base_dimen"
+        android:layout_marginEnd="@dimen/base_dimen"
         android:textColor="@color/dateText"
         android:textSize="@dimen/title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/album_cover" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/album_cover_parent"
+        app:layout_constraintTop_toBottomOf="@+id/artist" />
 
     <TextView
         android:id="@+id/artist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/base_dimen"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="@dimen/base_dimen_half"
+        android:layout_marginEnd="@dimen/base_dimen"
         android:textSize="@dimen/subtitle"
-        app:layout_constraintLeft_toRightOf="@+id/album_cover"
-        app:layout_constraintTop_toBottomOf="@+id/album" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/album_cover_parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

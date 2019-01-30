@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +25,21 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlbumAdapter.AlbumAdapterViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final AlbumAdapter.AlbumAdapterViewHolder viewHolder, int i) {
         Album album = dataSet.get(i);
 
+        Picasso.get().load(album.getArtworkUrl()).into(viewHolder.albumCover, new Callback() {
+            @Override
+            public void onSuccess() {
+                viewHolder.albumCoverProgress.setVisibility(View.GONE);
+                viewHolder.albumCover.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
         viewHolder.artistName.setText(album.getArtistName());
         viewHolder.albumName.setText(album.getName());
     }
@@ -39,6 +54,7 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
     }
 
     public class AlbumAdapterViewHolder extends RecyclerView.ViewHolder {
+        private final View albumCoverProgress;
         private final ImageView albumCover;
         private final TextView artistName;
         //private final TextView releaseDate;
@@ -50,6 +66,7 @@ class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumAdapterViewHol
         public AlbumAdapterViewHolder(@NonNull View view) {
             super(view);
 
+            albumCoverProgress = view.findViewById(R.id.album_cover_progress);
             albumCover = view.findViewById(R.id.album_cover);
             albumName = view.findViewById(R.id.album);
             artistName = view.findViewById(R.id.artist);

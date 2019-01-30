@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.application.itunes.util.NetworkUtils;
 
@@ -23,28 +22,27 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.application.itunes.MainActivity.LayoutState.*;
+
 public class MainActivity extends Activity {
     private static final String TAG = Activity.class.getName();
     private static final String KEY_DATA_SET = "key_data_set";
     private static final String ITUNES_URL = "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/10/explicit.json";
-    private ArrayList<Album> mDataSet = new ArrayList<>();
-    private RecyclerView mAlbums;
-    private ProgressBar mProgress;
-    private AlbumAdapter mAdapter;
+    private ArrayList<Album> dataSet = new ArrayList<>();
+    private RecyclerView albums;
+    private AlbumAdapter adapter;
+    private View contentView;
+    private View loadingView;
+    private View errorView;
 
-    private enum LayoutState {
+    public enum LayoutState {
         LOADED, LOADING, ERROR
     }
 
     private void setLayoutState(LayoutState state) {
-        switch (state) {
-            case LOADED:
-                break;
-            case LOADING:
-                break;
-            case ERROR:
-                break;
-        }
+        contentView.setVisibility(state == LOADED ? View.VISIBLE : View.GONE);
+        loadingView.setVisibility(state == LOADING ? View.VISIBLE : View.GONE);
+        errorView.setVisibility(state == ERROR ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -52,26 +50,27 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAlbums = findViewById(R.id.album_recycler_view);
-        mProgress = findViewById(R.id.progress_bar);
+        albums = findViewById(R.id.album_recycler_view);
+        contentView = findViewById(R.id.album_content_parent);
+        loadingView = findViewById(R.id.album_loading_parent);
+        errorView = findViewById(R.id.album_error_parent);
 
-        setLayoutState(LayoutState.LOADING);
+        setLayoutState(LOADING);
         initializeAlbumList();
 
         if (savedInstanceState == null) {
-            mAdapter.setDataSet(mDataSet);
-            mAlbums.setAdapter(mAdapter);
+            adapter.setDataSet(dataSet);
+            albums.setAdapter(adapter);
             try {
                 new ItunesRequest().execute(new URL(Uri.parse(ITUNES_URL).toString()));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
         } else {
-            mDataSet = savedInstanceState.getParcelableArrayList(KEY_DATA_SET);
-            mAdapter.setDataSet(mDataSet);
-            mAlbums.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-            mProgress.setVisibility(View.GONE);
+            dataSet = savedInstanceState.getParcelableArrayList(KEY_DATA_SET);
+            adapter.setDataSet(dataSet);
+            albums.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -85,22 +84,21 @@ public class MainActivity extends Activity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(KEY_DATA_SET, mDataSet);
+        outState.putParcelableArrayList(KEY_DATA_SET, dataSet);
     }
 
     private void initializeAlbumList() {
         int vertical = LinearLayoutManager.VERTICAL;
-        mAlbums.setLayoutManager(new LinearLayoutManager(this, vertical, false));
-        mAlbums.setHasFixedSize(true);
-        mAlbums.setNestedScrollingEnabled(true);
-        mAlbums.addItemDecoration(new DividerItemDecoration(this, vertical));
-        mAdapter = new AlbumAdapter();
+        albums.setLayoutManager(new LinearLayoutManager(this, vertical, false));
+        albums.setHasFixedSize(true);
+        albums.addItemDecoration(new DividerItemDecoration(this, vertical));
+        adapter = new AlbumAdapter();
     }
 
     private class ItunesRequest extends AsyncTask<URL, Void, Void> {
         @Override
         protected void onPreExecute() {
-            setLayoutState(LayoutState.LOADING);
+            setLayoutState(LOADING);
         }
 
         @Override
@@ -130,19 +128,19 @@ public class MainActivity extends Activity {
                         genreList.add(new Genre(genreId, genreName, url));
                     }
 
-                    mDataSet.add(new Album(artistName, releaseDate, name, copyright,
+                    dataSet.add(new Album(artistName, releaseDate, name, copyright,
                             contentAdvisoryRating, artworkUrl, genreList));
                 }
             } catch (IOException e) {
-                setLayoutState(LayoutState.ERROR);
+                setLayoutState(ERROR);
                 Log.e(TAG, "Unable in grabbing data");
                 e.printStackTrace();
             } catch (SecurityException e) {
-                setLayoutState(LayoutState.ERROR);
+                setLayoutState(ERROR);
                 Log.e(TAG, "Permission to access internet was denied");
                 e.printStackTrace();
             } catch (JSONException e) {
-                setLayoutState(LayoutState.ERROR);
+                setLayoutState(ERROR);
                 Log.e(TAG, "Unable in parsing data");
                 e.printStackTrace();
             }
@@ -152,8 +150,8 @@ public class MainActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void ignored) {
-            mAdapter.notifyDataSetChanged();
-            setLayoutState(LayoutState.LOADED);
+            adapter.notifyDataSetChanged();
+            setLayoutState(LOADED);
         }
     }
 }
