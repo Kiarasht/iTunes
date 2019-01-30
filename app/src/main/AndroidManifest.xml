@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:label="@string/album_hot"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +23,7 @@
         </activity>
 
         <activity
+            android:label="@string/album_info"
             android:name=".AlbumInfo"
             android:parentActivityName=".MainActivity" />
     </application>

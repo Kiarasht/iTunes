@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Top level / action bar strings -->
+    <string name="app_name">iTunes</string>
+    <string name="album_info">Información del álbum</string>
+    <string name="album_hot">Discos calientes</string>
+
+    <!-- UI texts -->
+    <string name="album_label">Álbum</string>
+    <string name="artist_label">Artista</string>
+    <string name="genre_label">Género</string>
+    <string name="date_label">Fecha de lanzamiento</string>
+
+    <!-- Errors -->
+    <string name="error_unknown">No se puede conectar al servicio. Inténtalo más tarde</string>
+    <string name="error_retry">Procesar de nuevo</string>
+</resources>

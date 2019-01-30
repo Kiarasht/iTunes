@@ -1,10 +1,16 @@
 <resources>
+    <!-- Top level / action bar strings -->
     <string name="app_name">iTunes</string>
+    <string name="album_info">Album Info</string>
+    <string name="album_hot">Hot Albums</string>
 
-    <string name="error_unknown">Unable to connect to service. Try again later</string>
-    <string name="error_retry">Retry</string>
+    <!-- UI texts -->
     <string name="album_label">Album</string>
     <string name="artist_label">Artist</string>
     <string name="genre_label">Genre</string>
     <string name="date_label">Release Date</string>
+
+    <!-- Errors -->
+    <string name="error_unknown">Unable to connect to service. Try again later</string>
+    <string name="error_retry">Retry</string>
 </resources>
